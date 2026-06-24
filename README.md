@@ -24,6 +24,8 @@ This repo contains k8s Manifests related to gateway-api
               v            v             v
         iPhone Pod   Android Pod   Desktop Pod
 
+```
+
 ## Directory Structure:
 
 ```text
@@ -63,3 +65,5 @@ books-store-app/
     │
     └── run-book-store-app.sh
         └── Deploys complete application stack
+
+```
