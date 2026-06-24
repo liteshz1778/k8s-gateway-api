@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: android-users
+  labels:
+    app: android-users
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: android-users
+  template:
+    metadata:
+      name: android-users-pod
+      labels:
+        app: android-users
+    spec:
+      containers:
+        - name: android-users-container
+          image: httpd
+          ports:
+            - containerPort: 80
+          command:
+            - sh
+            - -c
+
+          args:
+            - |
+              mkdir -p /usr/local/apache2/htdocs/phone;
+              touch /usr/local/apache2/htdocs/phone/index.html;
+              echo '<html>
+              <head>
+                <title>Android Users</title>
+              </head>
+              <body bgcolor="SkyBlue">
+                <h1>Welcome to Books Store Application!!</h1>
+                <h4><b><u>Android Users</u></b> is accessing this Webpage</h4>
+              </body>
+              </html>' > /usr/local/apache2/htdocs/phone/index.html
+
+              httpd-foreground
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: android-users-svc
+spec:
+  type: NodePort
+  selector: 
+    app: android-users
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 32002

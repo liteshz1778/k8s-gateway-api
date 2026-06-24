@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: desktop-users
+  labels:
+    app: desktop-users
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: desktop-users
+  template:
+    metadata:
+      name: desktop-users-pod
+      labels:
+        app: desktop-users
+    spec:
+      containers:
+        - name: desktop-users-container
+          image: httpd
+          ports:
+            - containerPort: 80
+          command:
+            - sh
+            - -c
+
+          args:
+            - |
+              echo '<html>
+              <head>
+                <title>Desktop Users</title>
+              </head>
+              <body bgcolor="Orange">
+                <h1>Welcome to Books Store Application!!</h1>
+                <h4><b><u>Desktop Users</u></b> is accessing this Webpage</h4>
+              </body>
+              </html>' > /usr/local/apache2/htdocs/index.html
+              
+              httpd-foreground
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: desktop-users-svc
+spec:
+  type: NodePort
+  selector: 
+    app: desktop-users
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 32001

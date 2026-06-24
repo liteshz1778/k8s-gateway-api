@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iphone-users
+  labels:
+    app: iphone-users
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: iphone-users
+  template:
+    metadata:
+      name: iphone-users-pod
+      labels:
+        app: iphone-users
+    spec:
+      containers:
+        - name: iphone-users-container
+          image: httpd
+          ports:
+            - containerPort: 80
+          command:
+            - sh
+            - -c
+
+          args:
+            - |
+              mkdir -p /usr/local/apache2/htdocs/iphone;
+              touch /usr/local/apache2/htdocs/phone/index.html;
+              echo '<html>
+              <head>
+                <title>iPhone Users</title>
+              </head>
+              <body bgcolor="LightGreen">
+                <h1>Welcome to Books Store Application!!</h1>
+                <h4><b><u>iPhone Users</u></b> is accessing this Webpage</h4>
+              </body>
+              </html>' > /usr/local/apache2/htdocs/iphone/index.html
+
+              httpd-foreground
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: iphone-users-svc
+spec:
+  type: NodePort
+  selector: 
+    app: iphone-users
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 32003
