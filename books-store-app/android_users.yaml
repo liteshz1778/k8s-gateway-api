@@ -26,8 +26,8 @@ spec:
 
           args:
             - |
-              mkdir -p /usr/local/apache2/htdocs/phone;
-              touch /usr/local/apache2/htdocs/phone/index.html;
+              mkdir -p /usr/local/apache2/htdocs/android;
+              touch /usr/local/apache2/htdocs/android/index.html;
               echo '<html>
               <head>
                 <title>Android Users</title>
@@ -36,7 +36,7 @@ spec:
                 <h1>Welcome to Books Store Application!!</h1>
                 <h4><b><u>Android Users</u></b> is accessing this Webpage</h4>
               </body>
-              </html>' > /usr/local/apache2/htdocs/phone/index.html
+              </html>' > /usr/local/apache2/htdocs/android/index.html
 
               httpd-foreground
 ---
