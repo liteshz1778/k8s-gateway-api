@@ -1,5 +1,9 @@
 # Install Envoy GW  Using helm charts
-helm install eg oci://docker.io/envoyproxy/gateway-helm --version v0.4.0 -n envoy-gateway-system --create-namespace
+helm install eg \
+oci://docker.io/envoyproxy/gateway-helm \
+--version v1.6.1 \
+-n envoy-gateway-system \
+--create-namespace
 
 # Wait for Envoy Gateway to become available:
 kubectl wait --timeout=5m -n envoy-gateway-system deployment/envoy-gateway --for=condition=Available
@@ -7,7 +11,11 @@ kubectl wait --timeout=5m -n envoy-gateway-system deployment/envoy-gateway --for
 # Uninstall Envoy GW:
 helm uninstall eg -n envoy-gateway-system
 
+kubectl delete crd \
+gateways.gateway.networking.k8s.io \
+gatewayclasses.gateway.networking.k8s.io \
+httproutes.gateway.networking.k8s.io
 
-GitHub Repo's for Reference:
+#GitHub Repo's for Reference:
 1. https://github.com/iam-veeramalla/kubernetes-gateway-api.git
 2. https://github.com/CloudWithVarJosh/YouTube-Standalone-Lectures/tree/main/Lectures/05-gateway-api
